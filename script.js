@@ -1,60 +1,34 @@
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background-image: url('bg.jpg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  backdrop-filter: blur(4px);
-  color: white;
-  overflow-x: hidden;
-}
+// Enable smooth drag scrolling for all .swiper containers
+document.addEventListener("DOMContentLoaded", function () {
+  const swipers = document.querySelectorAll(".swiper");
 
-header {
-  text-align: center;
-  padding: 40px 20px 20px;
-  font-size: 2.5em;
-  font-weight: bold;
-  color: #fff;
-  text-shadow: 2px 2px 4px #000;
-  transform: rotate(-2deg);
-}
+  swipers.forEach((container) => {
+    let isDown = false;
+    let startX, scrollLeft;
 
-.swipe-container {
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  gap: 20px;
-  padding: 20px;
-}
+    container.addEventListener("mousedown", (e) => {
+      isDown = true;
+      container.classList.add("active");
+      startX = e.pageX - container.offsetLeft;
+      scrollLeft = container.scrollLeft;
+    });
 
-.swipe-container::-webkit-scrollbar {
-  display: none;
-}
+    container.addEventListener("mouseleave", () => {
+      isDown = false;
+      container.classList.remove("active");
+    });
 
-.swipe-item {
-  min-width: 80%;
-  scroll-snap-align: start;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  padding: 15px;
-  backdrop-filter: blur(6px);
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-  text-align: center;
-}
+    container.addEventListener("mouseup", () => {
+      isDown = false;
+      container.classList.remove("active");
+    });
 
-.swipe-item img {
-  max-width: 100%;
-  border-radius: 20px;
-}
-
-.swipe-item audio, .swipe-item iframe {
-  margin-top: 10px;
-  width: 100%;
-}
-
-.swipe-item p {
-  margin-top: 10px;
-  font-size: 1.2em;
-  color: #fffa;
-}
+    container.addEventListener("mousemove", (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - container.offsetLeft;
+      const walk = (x - startX) * 2; // Scroll speed multiplier
+      container.scrollLeft = scrollLeft - walk;
+    });
+  });
+});
