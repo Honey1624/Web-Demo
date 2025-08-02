@@ -1,31 +1,93 @@
-// Swipe scroll smooth behavior
-document.addEventListener('DOMContentLoaded', function () {
-  const container = document.querySelector('.swipe-container');
-  let isDown = false;
-  let startX, scrollLeft;
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-image: url('bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  backdrop-filter: blur(4px);
+  overflow-x: hidden;
+  text-align: center;
+}
 
-  container.addEventListener('mousedown', (e) => {
-    isDown = true;
-    container.classList.add('active');
-    startX = e.pageX - container.offsetLeft;
-    scrollLeft = container.scrollLeft;
-  });
+/* Heading Style */
+.heading {
+  font-size: 2.5em;
+  color: white;
+  text-shadow: 0 0 10px #ff5faf, 0 0 20px #ff5faf;
+  margin-top: 30px;
+  animation: fadeIn 1.5s ease-in-out;
+}
 
-  container.addEventListener('mouseleave', () => {
-    isDown = false;
-    container.classList.remove('active');
-  });
+/* SWIPER IMAGE CONTAINER */
+.swiper {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 20px;
+  margin-top: 20px;
+}
 
-  container.addEventListener('mouseup', () => {
-    isDown = false;
-    container.classList.remove('active');
-  });
+.swiper::-webkit-scrollbar {
+  display: none;
+}
 
-  container.addEventListener('mousemove', (e) => {
-    if (!isDown) return;
-    e.preventDefault();
-    const x = e.pageX - container.offsetLeft;
-    const walk = (x - startX) * 2;
-    container.scrollLeft = scrollLeft - walk;
-  });
-});
+.swiper-slide {
+  min-width: 250px;
+  scroll-snap-align: center;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 10px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 0 15px rgba(255, 105, 180, 0.6);
+  transition: transform 0.3s ease;
+}
+
+.swiper-slide:hover {
+  transform: scale(1.05);
+}
+
+.swiper-slide img {
+  max-width: 100%;
+  border-radius: 20px;
+}
+
+/* STYLISH TEXT SECTION */
+.section.line {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 40px auto;
+  padding: 20px;
+  max-width: 80%;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 15px rgba(255, 182, 193, 0.4);
+  animation: fadeIn 2s ease-in-out;
+}
+
+.section.line p {
+  font-size: 1.5em;
+  font-weight: bold;
+  background: linear-gradient(45deg, #ff9ec4, #ffc371, #ff7eb3);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: glow 2s infinite alternate;
+}
+
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px #ff7eb3; }
+  to { text-shadow: 0 0 20px #ff4ba3; }
+}
